@@ -11,5 +11,6 @@ class Kontrib():
 
 
 if __name__ == "__main__":
+    import ipdb;ipdb.set_trace()
     kontrib = Kontrib()
     kontrib.run(sys.argv)
