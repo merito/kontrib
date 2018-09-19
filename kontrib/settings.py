@@ -11,7 +11,7 @@ class SettingsDict():
     KONTRIB_CONFIG_MAIN_SECTION = 'user'
 
     def __init__(self):
-        self.config_path = None
+        self.repo_path = None
         self.config_parser = None
         self.repo = None
 
@@ -30,7 +30,7 @@ class SettingsDict():
     def read_repo_config(self):
         self.config_parser.read(
             os.path.expanduser(
-                os.path.join(self.config_path, self.REPO_CONFIG_FILE_NAME)
+                os.path.join(self.repo_path, self.REPO_CONFIG_FILE_NAME)
             )
         )
         if self.REPO_CONFIG_MAIN_SECTION in self.config_parser:
@@ -47,10 +47,14 @@ class Settings():
     @classmethod
     def set_settings(cls, argv):
         parser = argparse.ArgumentParser()
-        parser.add_argument('config_path')
+        parser.add_argument('repo_path', default='.')
         parser.add_argument('--kontrib-config', dest='kontrib_config')
+        parser.add_argument('--hosting')
         parser.add_argument('--username')
         parser.add_argument('--password')
         parser.add_argument('--token')
+        parser.add_argument('--check', action='store_true', default=False)
+        parser.add_argument('--new-pr', nargs='*', default=None)
         parser.parse_args(args=argv[1:], namespace=cls.settings)
         cls.settings.read_configs()
+        return cls.settings
